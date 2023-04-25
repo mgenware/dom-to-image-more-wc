@@ -656,7 +656,7 @@
 
         function isShadowSlotElement(value) {
             return (
-                isInShadowRoot(value) && value instanceof getWindow(value).HTMLSlotElement
+                value instanceof getWindow(value).HTMLSlotElement
             );
         }
 
