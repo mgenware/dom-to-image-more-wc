@@ -81,6 +81,9 @@
             .then(function (clonee) {
                 return cloneNode(clonee, options, null, ownerWindow);
             })
+            .then((el) => {
+                return options.afterClone ? options.afterClone(el) : el;
+            })
             .then(embedFonts)
             .then(inlineImages)
             .then(applyOptions)
