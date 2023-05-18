@@ -786,6 +786,15 @@
                     const httpTimeout = domtoimage.impl.options.httpTimeout;
                     const request = new XMLHttpRequest();
 
+                    if (domtoimage.impl.options.requestInterceptor) {
+                        const interceptedResponse = domtoimage.impl.options.requestInterceptor(url);
+
+                        if (interceptedResponse !== undefined) {
+                            resolve(interceptedResponse);
+                            return;
+                        }
+                    }
+
                     request.onreadystatechange = done;
                     request.ontimeout = timeout;
                     request.responseType = 'blob';
@@ -1030,10 +1039,12 @@
                                 cssRules.push.bind(cssRules)
                             );
                         } catch (e) {
-                            console.error(
-                                `domtoimage: Error while reading CSS rules from ${sheet.href}`,
-                                e.toString()
-                            );
+                            // Mute caught exceptions.
+                            // TODO: Add an optional debug mode with verbose logging.
+                            // console.error(
+                            //     `domtoimage: Error while reading CSS rules from ${sheet.href}`,
+                            //     e.toString()
+                            // );
                         }
                     }
                 });
